@@ -4,10 +4,20 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build": "tsc -b && vite build",
+    "start": "vite --mode development",
+    "start:production": "vite --mode production",
+    "start:staging": "vite --mode staging",
+    "start:test": "vite --mode test",
+    "build:production": "tsc -b && vite build --mode production",
+    "build:staging": "tsc -b && vite build --mode staging",
+    "build:test": "tsc -b && vite build --mode test",
+    "preview": "vite preview --mode test",
+    "preview:test": "vite preview --mode test",
+    "preview:staging": "vite preview --mode staging",
+    "preview:production": "vite preview --mode production",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "lint:fix": "eslint . --fix",
+    "prepare": "husky"
   },
   "dependencies": {
     "@ant-design/charts": "^2.2.7",
@@ -26,6 +36,7 @@
     "@types/js-cookie": "^3.0.6",
     "@types/node": "^22.15.2",
     "@uidotdev/usehooks": "^2.4.1",
+    "@vitejs/plugin-legacy": "^6.1.0",
     "ahooks": "^3.8.4",
     "antd": "^5.24.8",
     "axios": "^1.9.0",
@@ -51,7 +62,10 @@
     "redux": "^5.0.1",
     "redux-persist": "^6.0.0",
     "redux-thunk": "^3.1.0",
-    "three": "^0.176.0"
+    "stylelint": "^16.19.0",
+    "three": "^0.176.0",
+    "vite-plugin-compression": "^0.5.1",
+    "vite-plugin-stylelint": "^6.0.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.22.0",
@@ -70,6 +84,21 @@
     "globals": "^16.0.0",
     "typescript": "~5.7.2",
     "typescript-eslint": "^8.26.1",
-    "vite": "^6.3.1"
+    "vite": "^6.3.1",
+    "vite-plugin-mock": "^3.0.2"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "pnpm precommit"
+    }
+  },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx}": [
+      "eslint --fix",
+      "prettier --write"
+    ],
+    "*.{css,less,scss}": [
+      "prettier --write"
+    ]
   }
 }
