@@ -1,0 +1,28 @@
+services:
+  app:
+    platform: linux/amd64
+    build:
+      context: .
+      args:
+        - NODE_ENV=${NODE_ENV:-production}
+    image: ${IMAGE_NAME} # 使用外部传递的镜像名称
+    environment:
+      - NODE_ENV=${NODE_ENV:-production}
+      - PUBLIC_BAS_URL=${PUBLIC_BAS_URL:-http://localhost:9000}
+    networks:
+      - asp-xms-network
+
+  nginx:
+    image: nginx:alpine
+    ports:
+      - '80:80'
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+    depends_on:
+      - app
+    networks:
+      - asp-xms-network
+
+networks:
+  asp-xms-network:
+    driver: bridge
